@@ -1,0 +1,185 @@
+<html>
+<canvas id="try" width="800"  height="600"></canvas>
+<script>
+var canvas;
+var canvasContext;
+var  ballX=400;
+var ballY=550;
+var ballSpeedeY=-2;
+var ballSpeedeX=5;
+var paddleX=250;
+var life=3;
+var gameOver=false;
+const PADDLE_THICKNESS=100;
+const PADDLE_HEIGHT=10;
+
+const box=[];
+const boxwidth=40;
+const boxheight=40;
+var paddleX=250;
+const paddle_width=20;
+function calculateMousePos(evt){
+  var rect=canvas.getBoundingClientRect();
+ var root =document.documentElement;
+var mouseX=evt.clientX-rect.left-root.scrollLeft;
+var mouseY=evt.clientY-rect.top-root.scrollTop;
+  return{
+
+x:mouseX,
+y:mouseY};
+
+}
+for (let y=0;y<5;y++){
+ for(let x=0;x<20;x++){
+    box.push({
+       x: x * boxwidth,
+       y: y * boxheight,
+       color: ['orange','blue','purple','pink','white'][y],
+      visible: true
+});
+}
+
+}
+function drawBox() {
+  for (let b of box) {
+    if (b.visible) {
+      canvasContext.fillStyle = b.color;
+      canvasContext.fillRect(b.x, b.y, boxwidth, boxheight);
+    }
+  }
+}
+window.onload=function (){
+    canvas=document.getElementById('try');
+    canvasContext=canvas.getContext('2d');
+
+    setInterval(function() {
+  moveBall();
+  draw();
+drawBox();
+}, 15);
+
+canvas.addEventListener('mousemove',
+
+    function(evt){
+       var mousePos=calculateMousePos(evt);
+       paddleX=mousePos.x-(PADDLE_THICKNESS/2);
+});
+canvas.addEventListener('mousemove',function() {
+    if (gameOver) {
+      resetGame();
+      life = 3;
+      gameOver = false;
+    }
+  });
+
+
+
+}
+
+function draw(){
+   canvasContext.fillStyle='black';
+   canvasContext.fillRect(0,0,canvas.width,canvas.height);
+   canvasContext.fillStyle = 'white';
+canvasContext.fillRect(paddleX, canvas.height - 20, PADDLE_THICKNESS, PADDLE_HEIGHT );
+canvasContext.fillStyle='white';
+canvasContext.beginPath();
+canvasContext.arc(ballX,ballY,10,0,Math.PI*2,true);
+canvasContext.fill();
+canvasContext.fillText("Lifes: " + life, 10, 580);
+ if (gameOver) {
+    canvasContext.font = '40px Arial';
+    canvasContext.fillText("Game Over ", 280, 300);
+    canvasContext.font = '20px Arial';
+    canvasContext.fillText("Click to Restart", 330, 340);
+  }
+ }  
+
+function moveBall(){
+ballX+=ballSpeedeX;
+ballY+=ballSpeedeY;
+
+if (ballX < 0 || ballX > canvas.width) {
+     ballSpeedeX=-ballSpeedeX;
+
+}
+
+
+if (ballY<0 ){
+ballSpeedeY=-ballSpeedeY;
+
+}
+
+
+if (
+  ballY + 10 >= canvas.height - 20 && // αγγίζει το ύψος του paddle
+  ballX > paddleX && 
+  ballX < paddleX + PADDLE_THICKNESS // μέσα στα οριζόντια όρια του paddle
+) 
+  ballSpeedeY = -ballSpeedeY; 
+if (ballY>canvas.height){
+    ballReset();
+
+}
+  
+for (let b of box) {
+  if (b.visible &&
+      ballX + 10 > b.x &&
+      ballX - 10 < b.x + boxwidth &&
+      ballY + 10 > b.y &&
+      ballY - 10 < b.y + boxheight) {
+        
+    b.visible = false;
+    ballSpeedeY = -ballSpeedeY; 
+  }
+}
+if (broken()) {
+  alert("Νίκησες!");
+  
+  resetGame();
+life=3;
+}
+if (gameOver) {
+  canvasContext.fillStyle = 'white';
+  canvasContext.font = '30px Arial';
+  canvasContext.fillText("You lost! ", 320, 300);
+  return; 
+}
+
+}
+
+
+
+ function ballReset(){
+if (gameOver) return;
+      life--;
+if(life<=0){
+    gameOver=true;
+return;
+}
+ ballX = 400;
+  ballY = 550;
+  ballSpeedeX = 5;
+  ballSpeedeY = -2;
+}
+function broken(){
+for(let b of box){
+   if(b.visible){
+     return false;
+
+  }
+}
+  return true;
+
+}
+
+function resetGame(){
+ for (let b of box) {
+    b.visible = true;   }
+  ballX = 400;
+  ballY = 550;
+  ballSpeedeX = 5;
+  ballSpeedeY = -2;
+}
+
+</script>
+</html>
