@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <title>My Game Portfolio - Paraskevi</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            text-align: center;
+            background-color: #1a1a2e;
+            color: white;
+            padding: 50px;
+        }
+        h1 { color: #00d2ff; }
+        .container { display: flex; justify-content: center; gap: 20px; margin-top: 30px; }
+        .game-card {
+            background: #16213e;
+            padding: 20px;
+            border: 2px solid #0f3460;
+            border-radius: 15px;
+            width: 250px;
+            transition: 0.3s;
+        }
+        .game-card:hover { transform: scale(1.05); border-color: #e94560; }
+        .btn {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 10px 20px;
+            background: #e94560;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Καλώς ήρθατε στο Game Portfolio μου</h1>
+    <p>Επιλέξτε ένα παιχνίδι για να ξεκινήσετε:</p>
+
+    <div class="container">
+        <div class="game-card">
+            <h3>Brick Breaker</h3>
+            <p>Το κλασικό παιχνίδι με τα τουβλάκια.</p>
+            <a href="bricks.html" class="btn">Παίξε Τώρα</a>
+        </div>
+
+        <div class="game-card">
+            <h3>Tennis Game</h3>
+            <p>Πρόσκρουσε την μπάλα!</p>
+            <a href="tennis.html" class="btn">Παίξε Τώρα</a>
+        </div>
+    </div>
+</body>
+</html>
